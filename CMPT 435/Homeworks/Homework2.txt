@@ -1,0 +1,84 @@
+Michael Pepsin
+Homework 2
+CMPT 435
+2/27/2019
+
+1a) int f1(int n) {                   // COST   TIMES
+      int i = 1;                      // c1     1
+      for (int j = 1;                 // c2     1
+                    j <= n;           // c3     n+1
+                            j++) {    // c4     n
+        i = i * j;                    // c5     n
+      }
+      return i;                       // c6     1
+    }
+    
+  T(n) = c1 + c2 + c3(n+1) + c4(n) + c5(n) + c6
+  T(n) = O(n)
+  
+1b) int f2(int m, unsigned int n) {        // COST   TIMES
+      for (int i = 0;                      // c1     1
+                    i < 2 * m;             // c2     2m+1
+                               i++) {      // c3     2m
+        for (int j = n;                    // c4     2m
+                        j > 0;             // c5     2m(n+1)
+                               j--) {      // c6     2m(n)
+          return j;                        // c7     1
+        }
+      }
+      return 0;                            // c8     1
+    }
+  
+  T(n) = c1 + c2(2m+1) + (c3 + c4)(2m) + c5(2m)(n+1) + c6(2mn) + c7 + c8
+  T(n) = O(n^2)
+  
+1c) void f3(int n) {                          // COST   TIMES
+      for (int i = 0;                         // c1     1
+                    i < n;                    // c2     n+1
+                           i++) {             // c3     n
+        for (int j = 10;                      // c4     n
+                       j >= 0;                // c5     12n
+                               j--) {         // c6     11n
+          System.out.print("i = " + i);       // c7     11n
+          System.out.println(", j = " + j);   // c8     11n
+        }
+      }
+    }
+    
+   T(n) = c1 + c2(n+1) + (c3 + c4)(n) + c5(12n) + (c6 + c7 + c8)(11n)
+   T(n) = O(n)
+   
+2) This function will never terminate. The declaration and assignment of x
+is the first thing that happens when g is called, but g is called again in
+the assignment of x. This will go on forever, and the if/return statements
+will never be reached. This is true for all inputs, and will throw a memory
+overflow error every time.
+
+3) There will be more null child pointers. Regarding the totals of null pointers
+vs. non-null pointers, any node that doesn't have two non-null children will either
+break even or contribute positively toward the total of null child pointers. Every 
+leaf also terminates with two null child pointers. Since any node can have a maximum
+of two children, the whole tree (that is, the sum of all the node pointers) can be
+represented by the sum of the series 2^n, where n is the number of generations of
+nodes. Therefore, even if the tree had no null child pointers except for its leaves,
+it would still have one more null child pointer than it had non-null pointers.
+
+4) a.) 500/100 = n/.5 : 2.5 ms
+   b.) 500log(500)/100log(100) = n/.5 : 3.37 ms
+   c.) 500^2/100^2 = n/.5 : 12.5 ms
+   d.) 500^3/100^3 = n/.5 : 62.5 ms
+
+5) a.) n/100 = 60000/.5 : 120000
+   b.) nlog(n)/100log(100) = 60000/.5 : 3656810
+   c.) n^2/100^2 = 60000/.5 : 34641
+   d.) n^3/100^3 = 60000/.5 : 4932
+
+6) The algorithm would probably run out of stack space because the algorithm breaks
+the compound interest rule by not saving fib(n-2) when it computes fib(n-1). The
+function calls itself 2 times every time it is called until the base case is reached.
+
+7) Use the code snippet
+
+    this = this.next();
+
+  for setting the node pointer to the next node, effectively removing the referenced node.

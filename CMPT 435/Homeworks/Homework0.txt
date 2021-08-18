@@ -1,0 +1,53 @@
+Michael Pepsin
+Homework 0
+1/30/2019
+CMPT 435
+
+1. A run-time stack is created by every call in a Java thread. It handles calls
+to new methods and serves as the mechanism that determines the order by which
+the calls terminate. When there are no methods to call/resolve, the stack is 
+empty and the run-time stack will be terminated. The run-time heap stores new
+Objects initialized during run-time. The reference to this memory allocation
+is stored on the stack. Heap storage is slower to access, requires the
+Garbage Collector to free up storage space, and is modeled by Generations.
+
+2. Theorem: the sum of integers 1,2,...,n = n(n+1)/2
+When n = 1, 1(1+1)/2 = 1
+Inductive hypothesis: The sum of integers 1,2,...,n,n+1 = (n+1)(n+2)/2
+(n(n+1)/2) + n+1 =
+(n(n+1)/2) + 2(n+1)/2 = 
+(n^2 + n + 2n + 2)/2 =
+(n^2 + 3n + 2)/2 =
+(n+1)(n+2)/2
+
+3.
+Base case rule: Always have a base case that can be solved without recursion
+Making progress rule: For cases solved recursively, the recursive call must
+  always make progress toward the base case
+Design rule: Assume all recursive calls work
+Compound interest rule: Never duplicate work by solving the same instance of a
+  problem in separate calls
+
+public static void printInt( int z ) /* Print nonnegative z */
+{
+  if(z >= 10)
+    printInt(z / 10);
+  printDigit (z % 10); /* Writes digit in the ones position */
+}
+
+Base case is defined (the line containing the call to printDigit)
+Progress is always made towards the base case, reducing z with consecutive
+  calls until the base case is reached
+We can assume all recursive calls work
+No work performed by the printInt function is performed elsewhere erroneously
+
+4. The function will not terminate for all inputs. Proof by contradiction:
+If printToN terminates for all inputs, it will terminate for n = -2
+When n = -2, the condition 'i != n + 1' will be True forever, and the loop will
+never terminate. Since it will not terminate for n = -2, it will not terminate
+for all inputs.
+
+5. Data structures are defined by:
+- The data they contain
+          AND
+- The operations they perform

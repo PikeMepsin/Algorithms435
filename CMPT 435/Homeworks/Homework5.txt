@@ -1,0 +1,64 @@
+Michael Pepsin
+Homework 5
+CMPT 435
+4/24/19
+
+1.
+
+2. import java.util.Arrays;
+   public static void main(String[] args) {
+   
+   int[] arr = {100, 50, 60, 250};
+   int[] sorted = arr.clone();
+   Arrays.sort(sorted);
+   
+   int[] output = new int[arr.length];
+   for (int k = 0; k < output.length; k++) {
+     for (int m = 0; m < output.length; m++) {
+       if (sorted[k] == input[m]) {
+         output[k] = m;
+         break;
+       }
+     }
+   }
+   System.out.println(Arrays.toString(output));
+   }
+
+3. s, G, D, A, H, E, B, I, F, C, t
+
+4a. 1: A -> C
+    2: A -> B
+    3: A -> B -> G
+    4: A -> B -> G -> E -> D
+    5: A -> B -> G -> E
+    6: A -> B -> G -> E -> F
+   
+ b. 1: B -> C
+    2: B -> G
+    3: B -> E
+    4: B -> C -> D
+    5: B -> C -> D -> A
+    6: B -> E -> F
+    
+5.        A
+        /   \
+     4 /     \ -3
+      /       \
+     V         V
+    B <-------- C
+          5
+ 
+The shortest path is A -> B -> C with a cost of 2, but Dijkstra's algorithm
+returns A -> B as the shortest path even though the cost is 4
+
+
+6a. 
+6b.
+
+7. Prim's algorithm is not compatible with negative edge weights because it is 
+based on the principles of Dijkstra's algorithm, which can fail because of negative
+edges. It only checks that the cost of edge (u,v) is such that u is in the tree and 
+v is not. Therefore, any negative value will satisfy this criteria, and the logic of the
+algorithm falls apart. Kruskal's algorithm should work regardless of negative edges because it 
+only cares about not forming a cycle based on whether or not u and v are in the same set, not
+by doing comparisons that a negative edge would invalidate.

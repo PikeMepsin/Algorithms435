@@ -1,0 +1,397 @@
+Michael Pepsin
+Homework 4
+CMPT 435
+4/10/19
+
+1a) Separate Chaining
+
+0 | -
+1 | -4371-
+2 | -
+3 | -1323-6173
+4 | -4344
+5 | -
+6 | -
+7 | -
+8 | -
+9 | -4199-9679-1989
+
+1b) Linear Probing
+
+0 | 9679
+1 | 4371
+2 | 1989
+3 | 1323
+4 | 6173
+5 | 4344
+6 |
+7 |
+8 |
+9 | 4199
+
+1c) Quadratic Probing
+
+0 | 9679
+1 | 4371
+2 |
+3 | 1323
+4 | 6173
+5 | 4344
+6 |
+7 |
+8 | 1989
+9 | 4199
+
+1d) Double Hashing  hash2(x) = 7 - (x mod 7)
+
+0 |
+1 | 4371
+2 |
+3 | 1323
+4 | 6173
+5 | 9679
+6 |
+7 | 4344
+8 |
+9 | 4199
+
+*1989 can't be added because hash2(1989)=6
+Alternate locations include 7, 3, 5, and 1, all of which are populated
+
+2a) Separate Chaining
+
+0 | -4199-
+1 | -4371-
+2 | -
+3 | -
+4 | -
+5 | -
+6 | -
+7 | -
+8 | -9679-
+9 | -
+10| -
+11| -
+12| -1323-4344
+13| -1989
+14| -
+15| -
+16| -
+17| -6173
+18| -
+
+2a) Linear Probing
+
+0 | 4199
+1 | 4371
+2 |
+3 |
+4 |
+5 |
+6 |
+7 |
+8 | 9679
+9 |
+10|
+11|
+12| 1323
+13| 1989
+14| 4344
+15|
+16|
+17| 6173
+18|
+
+2c) Quadratic Probing
+
+0 | 4199
+1 | 4371
+2 |
+3 |
+4 |
+5 |
+6 |
+7 |
+8 | 9679
+9 |
+10|
+11|
+12| 1323
+13| 1989
+14|
+15|
+16| 4344
+17| 6173
+18|
+
+2d) Double Hashing  hash2(x) = 7 - (x mod 7)
+
+0 | 4199
+1 | 4371
+2 |
+3 |
+4 |
+5 |
+6 |
+7 |
+8 | 9679
+9 |
+10|
+11|
+12| 1323
+13| 1989
+14|
+15| 4344
+16|
+17| 6173
+18|
+
+3)
+[1753, 175967, 56546, 2902, 2785, 1718, 1718]
+[1786, 175967, 56981, 3176, 2573, 1637, 1637]
+[2039, 175967, 55384, 2426, 2783, 1682, 1682]
+[2048, 175967, 266084, 2808, 2558, 1671, 1671]
+[3067, 175967, 52425, 2392, 3240, 1672, 1672]
+[3072, 175967, 103571, 2813, 2994, 1654, 1654]
+[4093, 175967, 51913, 2168, 3729, 1616, 1616]
+[4096, 175967, 57470, 2278, 3659, 1617, 1617]
+[5119, 175967, 51552, 1910, 4305, 1666, 1666]
+[5120, 175967, 55821, 1850, 4948, 1675, 1675]
+[8191, 175967, 50845, 1830, 7038, 2182, 2182]
+[8192, 175967, 52110, 1826, 6600, 2183, 2183]
+
+      Hash1   Hash1  Hash2 Hash2 Hash3 Hash3      
+      Linear  Quad.  Lin.  Quad. Lin.  Quad.
+1753| 175967, 56546, 2902, 2785, 1718, 1718
+1786| 175967, 56981, 3176, 2573, 1637, 1637
+2039| 175967, 55384, 2426, 2783, 1682, 1682
+2048| 175967, 266084, 2808, 2558, 1671, 1671
+3067| 175967, 52425, 2392, 3240, 1672, 1672
+3072| 175967, 103571, 2813, 2994, 1654, 1654
+4093| 175967, 51913, 2168, 3729, 1616, 1616
+4096| 175967, 57470, 2278, 3659, 1617, 1617
+5119| 175967, 51552, 1910, 4305, 1666, 1666
+5120| 175967, 55821, 1850, 4948, 1675, 1675
+8191| 175967, 50845, 1830, 7038, 2182, 2182
+8192| 175967, 52110, 1826, 6600, 2183, 2183
+
+It appears that my personal hash function, hash3, is either incredible or
+horrible. It is either so good that it has the same number of probes with both
+linear and quadratic probing, both of which are less than hashes 1 and 2, or
+it is broken to some extent. Nonetheless, my function is more complex than hash2,
+which is in turn more complex than hash1. It does not surprise me that the more
+complex the hash function, the less likely it is to yield collisions. There are
+two outliers in the Hash1 with quadratic probing column, 266084 and 103571. These
+are either unique cases that are especially prone to secondary clustering, or this
+is evidence that my code doesn't work properly. As the size increases, hash2 with
+linear probing decreases the amount of probes required. I think this is because
+the randomized dictionary is not prone to primary clustering by nature, and
+therefore a large table size means fewer collisions. This contrasts hash2 with
+quadratic probing, which starts off with fewer collisions, and gradually grows
+with table size.
+
+import java.util.*;
+
+public class HashedPotatoes {
+  public static void main(String[] args) {
+    Scanner keyboard = new Scanner(System.in);
+    int tableSize = 0;
+    int[][] resultTable = new int[12][7];
+    
+    ArrayList<String> dictionary = new ArrayList<String>();
+    String word = null;
+    
+    int[] sizes = {1753, 1786, 2039, 2048, 3067, 3072, 4093, 4096, 5119,
+      5120, 8191, 8192};
+    Hashtable<Integer, String> hash1 = null;
+    int[][] hash2 = null;
+    int hash = 0;
+    
+    int probes = 0;
+    int probeCount = 0;
+    
+    while (keyboard.hasNext()) {
+      word = keyboard.next();
+      dictionary.add(word);
+    }
+    
+    for (int w = 0; w < sizes.length; w++) {
+      System.out.println();
+      System.out.println(sizes[w]);
+      
+      resultTable[w][0] = sizes[w];
+      hash2 = new int[sizes[w]][2];
+      
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float).25);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++) {
+        probes = 0;
+        hash = hash_string_1(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else {
+          while (probes < sizes[w]) {
+            hash = (hash + 1) % sizes[w];
+            probes++;
+            if (hash1.containsKey(hash) == false) {
+              hash1.put(hash, dictionary.get(i));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      
+      System.out.println("Hash1 " + Integer.toString(probeCount));
+      resultTable[w][1] = probeCount;
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float).5);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++) {
+        probes = 0;
+        hash = hash_string_1(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else {
+          int hashTemp = hash;
+          while (probes < sizes[w]) {
+            probes++;
+            hashTemp = (hash + (probes*probes)) % sizes[w];
+            if (hash1.containsKey(hashTemp) == false) {
+              hash1.put(hashTemp, dictionary.get(w));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      
+      System.out.println("Hash1 Quadratic " + Integer.toString(probeCount));
+      resultTable[w][2] = probeCount;
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float).25);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++) {
+        probes = 0;
+        hash = hash_string_2(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else {
+          while (probes < sizes[w]) {
+            hash = (hash + 1) % sizes[w];
+            probes++;
+            if (hash1.containsKey(hash) == false) {
+              hash1.put(hash, dictionary.get(i));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      
+      System.out.println(probeCount);
+      resultTable[w][3] = probeCount;
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float).5);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++) {
+        probes = 0;
+        hash = hash_string_2(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else {
+          int hashTemp = hash;
+          while (probes < sizes[w]) {
+            probes++;
+            hashTemp = (hash + (probes*probes)) % sizes[w];
+            if (hash1.containsKey(hashTemp)) {
+              hash1.put(hashTemp, dictionary.get(i));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      System.out.println("Hash2 Quadratic " + Integer.toString(probeCount));
+      resultTable[w][4] = probeCount;
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float)0.25);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++){
+        probes = 0;
+        hash = hash_string_3(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else{
+          while (probes < sizes[w]){
+            hash = (hash + 1) % sizes[w];
+            probes++;
+            if (hash1.containsKey(hash) == false) {
+              hash1.put(hash, dictionary.get(i));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      
+      System.out.println(probeCount);
+      resultTable[w][5] = probeCount;
+      hash1 = new Hashtable<Integer, String>(sizes[w], (float).5);
+      probeCount = 0;
+      for (int i = 0; i < dictionary.size(); i++){
+        probes = 0;
+        hash = hash_string_3(dictionary.get(i), sizes[w]);
+        if (hash1.containsKey(hash) == false) {
+          hash1.put(hash, dictionary.get(i));
+          probes++;
+        }
+        else{
+          while (probes < sizes[w]){
+            hash = (hash + 1) % sizes[w];
+            probes++;
+            if (hash1.containsKey(hash) == false) {
+              hash1.put(hash, dictionary.get(i));
+              probes++;
+              break;
+            }
+          }
+        }
+        probeCount += probes;
+      }
+      System.out.println("Hash3 Quadratic " + Integer.toString(probeCount));
+      resultTable[w][6] = probeCount;
+    }
+    for (int[] results: resultTable) {
+      System.out.println(Arrays.toString(results));
+    }
+    
+  }
+  
+  public static int hash_string_1(String key, int tableSize) {
+    return (key.length() * key.length() * 4) % tableSize;
+  }
+
+  public static int hash_string_2(String key, int tableSize) {
+    return   (key.charAt(0) + 
+        27 * key.charAt(1) + 
+        729 * key.charAt(2)) % tableSize;
+  }
+
+  public static int hash_string_3(String key, int tableSize) {
+    // come up with your own hash function and see if you 
+    // can do better on any of the test cases
+    return ((727*key.length()) + (13*key.charAt(0)) - (key.charAt(1)) % tableSize);
+  }
+}

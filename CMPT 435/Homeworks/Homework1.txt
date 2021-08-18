@@ -1,0 +1,303 @@
+Michael Pepsin
+Homework 1
+2/13/19
+CMPT 435
+
+1.)
+int efibonacci(int i) {
+  if (i<1) {
+    return i;
+  }
+  else if (i>0 && i<=3) {
+    return 1;
+  }
+  else {
+    return efibonacci(i-1) + efibonacci(i-2) + efibonacci(i-3);
+  }
+}
+sample inputs:
+input: 4      output: 3
+input: 10     output: 105
+input: 30     output: 20603361
+input: 100    output: N/A (took too long)
+input: 100000 output: StackOverflowError
+
+The algorithm works because it uses recursion to retrieve the values it
+needs to produce efibonacci(i). It provides base cases, a case for nonpositive
+inputs, and always works toward the base cases.
+
+2.) This algorithm is pretty horrible. Sure it works, but takes too long to handle
+inputs as big as 3 digits and uses all available stack memory for large inputs. It
+follows the first 2 rules of recursive functions. First, it provides base cases, and
+second, it always works toward them. However, it violates the compound interest rule
+two times by computing efibonacci(i-2) and efibonacci(i-3) when those values are 
+computed by the first call to efibonacci(i-1). 
+
+
+3.) {} = same growth rate
+2/N, N^.5, Nlog(log N), N, {Nlog(N), Nlog(N^2), Nlog^2(N), N^1.5},
+{N^2, (N^2)log(N)}, N^3, {2^(N/2), 2^N}
+
+
+4a.) f(N) = f(N-1)^2 where f(1) = 2
+4b.) T(N) = O(N)
+
+
+
+5.) 1)                 // COST  TIMES
+sum = 0;               // c1    1
+for (i=0;              // c2    1
+          i<n;         // c3    n+1
+                i++) { // c4    n
+  sum++;               // c5    n
+}
+T(N) = 2n + (n+1) + 2 = 3n + 3 = O(N)
+
+import java.lang.*;
+
+public class ProblemDemo1 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 10; // changed with 10000 and 10000000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=0; i<n; i++) { 
+      sum++;               
+    }
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+n = 10      : 365
+n = 10000   : 73663
+n = 10000000: 2020275
+
+
+
+5.) 2)                 // COST  TIMES
+sum = 0;               // c1    1
+for (i=0;              // c2    1
+          i<n;         // c3    n+1
+              i++) {   // c4    n
+  for (j=0;            // c5    n
+            j<n;       // c6    n(n+1)
+                j++) { // c7    n^2
+      sum++;           // c8    n^2
+                } 
+}
+T(N) = 2n^2 + (n^2+n) + 2n + (n+1) + 2 = 3n^2 + 4n + 3 = O(N^2)
+
+import java.lang.*;
+
+public class ProblemDemo2 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 10000000; // changed with 10000 and 10000000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=0; i<n; i++) { 
+      for (int j=0; j<n; j++) {
+        sum++;
+      }             
+    }
+    
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+n = 10      : 1458
+n = 10000   : 2925753
+n = 10000000: 6291664
+
+
+
+5.) 3)                 // COST  TIMES
+sum = 0;               // c1    1    
+for (i=0;              // c2    1
+          i<n;         // c3    n+1
+                i++) { // c4    n
+  for (j=0;            // c5    n
+          j<n*n;       // c6    n(n^2)+1
+                j++) { // c7    n(n^2)
+    sum++;             // c8    n(n^2)
+  }
+}
+T(N) = 2n^3 + (n^3+1) + 2n + (n+1) + 2 = 3n^3 + 3n + 3 = O(N^3)
+
+import java.lang.*;
+
+public class ProblemDemo3 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 10; // changed with 10000 and 10000000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=0; i<n; i++) { 
+      for (int j=0; j<(n*n); j++) {
+        sum++;
+      }             
+    }
+    
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+n = 10      : 8023
+n = 10000   : 4638611
+n = 10000000: 6023995
+
+
+
+5.) 4)                 // COST  TIMES
+sum = 0;               // c1    1
+for (i=0;              // c2    1
+          i<n;         // c3    n+1
+              i++) {   // c4    n
+  for (j=0;            // c5    n
+          j<i;         // c6    n(n+1)
+              j++) {   // c7    n^2
+    sum++;             // c8    n^2
+  }
+}
+T(N) = 2n^2 + (n^2+n) + 2n + (n+1) + 2 = 3n^2 + 4n + 3 = O(N^2)
+
+import java.lang.*;
+
+public class ProblemDemo4 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 10000000; // changed with 10000 and 10000000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=0; i<n; i++) { 
+      for (int j=0; j<i; j++) {
+        sum++;
+      }             
+    }
+    
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+n = 10      : 1094
+n = 10000   : 2949457
+n = 10000000: 8707972
+
+
+
+5.) 5)
+import java.lang.*;
+
+public class ProblemDemo5 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 10; // changed with 100 and 1000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=0; i<n; i++) { 
+      for (int j=0; j<(i*i); j++) {
+        for (int k=0; k<j; k++) {
+          sum++;
+        }
+      }             
+    }
+    
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+T(N) = O(N^5)
+
+n = 10   : 57983
+n = 100  : 2661367
+n = 1000 : 271942601
+
+
+
+5.) 6)
+import java.lang.*;
+
+public class ProblemDemo6 {
+
+   public static void main(String[] args) {
+    int sum = 0;       
+    int n = 1000; // changed with 10000 and 10000000
+    long start = System.nanoTime();
+    long end = start;
+    
+    for (int i=1; i<n; i++) { 
+      for (int j=1; j<(i*i); j++) {
+        if (j%i == 0) {
+          for (int k=0; k<j; k++) {
+            sum++;
+          }
+        }
+      }
+    }             
+        
+    end = System.nanoTime();
+    System.out.println(sum + " " + (end - start));
+   }
+}
+T(N) = O(N^4)
+
+n = 10   : 14222
+n = 100  : 4260813
+n = 1000 : 960484647
+
+
+
+6.) 1) f(n)=log(n), g(n)=log^2(n)
+lim  log(n)/log^2(n) => lim  1/log(n)
+n->infinity             n->infinity
+
+1/infinity = 0
+
+f(n) = o(g(n))
+
+
+6.) 2) f(n)=3^n, g(n)=2^n
+lim  3^n/2^n => lim  (3/2)^n
+n->infinity     n->infinity
+
+(3/2)^n = e^nln(3/2)
+lim  e^nln(3/2) = infinity
+n->infinity
+
+g(n) = o(f(n))
+
+
+6.) 3) f(n)=log(n), g(n)=n
+lim  log(n)/n => lim  (1/x)/1 (L'Hopital's Rule)
+n->infinity      n->infinity
+
+1/infinity = 0
+
+f(n) = o(g(n))
+
+
+6.) 4) f(n)=5n, g(n)=n
+lim  5n/n => lim  5      = 5
+n->infinity  n->infinity
+
+f(n) = theta(g(n))
+
+
+7.) The tightest big-Oh run time for an algorithm that prints
+the permutations of an algorithm is O(N!). The amount of permutations grows 
+very quickly as the number of elements increases. If the array is of length 1, 
+it will have 1 permutation. Arrays of length 2 have 2 permutations, Arrays of 
+length 3 have 6 permutations, and arrays of length 4 have 24 permutations. We
+can discount the time it takes to print each permutation at the end because the
+time complexity of the loop required to do so is insignificant compared to the
+factorial growth of the permutation-generating part of the algorithm.
